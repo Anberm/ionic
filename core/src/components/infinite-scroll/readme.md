@@ -38,7 +38,7 @@ Separating the `ion-infinite-scroll` and `ion-infinite-scroll-content` component
 
 ```typescript
 import { Component, ViewChild } from '@angular/core';
-import { InfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'infinite-scroll-example',
@@ -46,7 +46,7 @@ import { InfiniteScroll } from '@ionic/angular';
   styleUrls: ['./infinite-scroll-example.css']
 })
 export class InfiniteScrollExample {
-  @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   constructor() {}
 
@@ -64,7 +64,7 @@ export class InfiniteScrollExample {
   }
 
   toggleInfiniteScroll() {
-    infiniteScroll.disabled = !infiniteScroll.disabled;
+    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
   }
 }
 ```
@@ -109,6 +109,69 @@ function toggleInfiniteScroll() {
   infiniteScroll.disabled = !infiniteScroll.disabled;
 }
 ```
+
+
+### React
+
+```tsx
+import React from 'react';
+
+import { IonAvatar } from '@ionic/react';
+
+const Example: React.SFC<{}> = () => (
+
+  <IonContent>
+    <IonButton onClick="toggleInfiniteScroll()" expand="block">
+      Toggle Infinite Scroll
+    </IonButton>
+
+    <IonList></IonList>
+
+    <IonInfinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <IonInfinite-scrollContent
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </IonInfinite-scrollContent>
+    </IonInfinite-scroll>
+  </IonContent>
+
+
+
+  import { Component, ViewChild } from '@angular/core';
+  import { IonInfiniteScroll } from '@ionic/angular';
+
+  @Component({
+    selector: 'infinite-scroll-example',
+    templateUrl: 'infinite-scroll-example.html',
+    styleUrls: ['./infinite-scroll-example.css']
+  })
+  export class InfiniteScrollExample {
+    @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+
+    constructor() {}
+
+    loadData(event) {
+      setTimeout(() => {
+        console.log('Done');
+        event.target.complete();
+
+        // App logic to determine if all data is loaded
+        // and disable the infinite scroll
+        if (data.length == 1000) {
+          event.target.disabled = true;
+        }
+      }, 500);
+    }
+
+    toggleInfiniteScroll() {
+      this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+    }
+  }
+
+
+);
+
+export default Example
 
 
 
